@@ -6,14 +6,16 @@
     <title>Weather Forecast (JSON)</title>
 
     <style>
-        /*
-            STYLES FOR TABLE BORDERS (FEEL FREE TO UPDATE)
-            https://www.w3schools.com/html/html_table_borders.asp
-        */
         table, th, td {
             border: 1px solid black;
             border-collapse: collapse;
             padding: 5px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            height: 40px;
         }
     </style>
 </head>
@@ -23,7 +25,11 @@
     <a href="../index.html">Home</a>
 
     <h2>Dataset Information</h2>
-    <p>For this exercise, we will use a JSON file called <a href="https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/weather-data.json">"weather-data.json"</a>
+    <p>
+        For this exercise, we will use a JSON file called 
+        <a href="https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/weather-data.json">
+            "weather-data.json"
+        </a>
         that has been uploaded to the Internet.
         The JSON file contains weather forecast data that was originally retrieved from the Weather.gov API.
     </p>
@@ -32,21 +38,7 @@
     <p>
         Write JavaScript code to answer the questions below.
         Log each of the answers to the console.
-
-        <ol type="A">
-            <li>Fetch the weather data using the provided URL.</li>
-            <li>Display the date this data was generated (i.e. "2021-06-08").</li>
-            <li>Display the number of periods of available data (i.e. 14).</li>
-            <li>Use a filtering operation to arrive at a subset of the periods that are daytime only (excluding night-time periods),
-                and store them in a variable called <code>daytimePeriods</code>.
-            </li>
-            <li>Display the number of daytime periods (i.e. 7).</li>
-            <li>For each daytime period, display a human-readable weather forecast on that date, including:
-                 the period name, temperature (and temperature unit), and a short or long forecast.
-            </li>
-        </ol>
     </p>
-
 
     <h2>Part 2</h2>
     <p>
@@ -54,54 +46,94 @@
         Display the answers on the page in the designated areas.
     </p>
 
-    <ol type="A">
-        <li>Display the date this data was generated. Use the designated <code>span</code> element.</li>
-        <li>Display a seven day forecast, using the daytime periods only.
-            Use the designated <code>table</code> element.
-            The table should have four columns ("Period", "Temperature", "Forecast", and "Icon").
-            There should be a row for each daytime period.
-            Include the period name, temperature (and temperature unit), and a short or long forecast.
-            Also display the weather icon as an image.
-        </li>
-    </ol>
-
     <hr>
     <h2>Display</h2>
     <div id="weather-app">
         <p>Date: <span id="display-date">TODO</span></p>
 
         <p>Seven Day Forecast:</p>
-        <table id="display-forecast" style="border:1px solid black;">
+        <table id="display-forecast">
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Temperature</th>
+                    <th>Forecast</th>
+                    <th>Icon</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Forecast rows will go here -->
+            </tbody>
         </table>
     </div>
 
-
     <script type="text/javascript">
-
-        var degreeSymbol = "\u00B0"
-
-        var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/weather-data.json"
+        var degreeSymbol = "\u00B0";
+        var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/weather-data.json";
 
         fetch(requestUrl).then(response => response.json())
-            .then(function(data){
-                console.log("DATA", data)
+            .then(function(data) {
+                console.log("DATA:", data);
 
+                console.log("---------------------");
+                console.log("PART 1...");
 
-                console.log("---------------------")
-                console.log("PART 1...")
+                // A. Date data was generated
+                const generatedDate = data.properties.updated;
+                console.log("Date Generated:", generatedDate);
 
+                // B. Total number of periods
+                const periods = data.properties.periods;
+                console.log("Total Periods:", periods.length);
 
+                // C. Filter for daytime periods only
+                const daytimePeriods = periods.filter(p => p.isDaytime);
+                console.log("Filtered Daytime Periods:", daytimePeriods);
 
+                // D. Count of daytime periods
+                console.log("Number of Daytime Periods:", daytimePeriods.length);
 
-                console.log("---------------------")
-                console.log("PART 2...")
+                // E. Loop and display each daytime forecast
+                daytimePeriods.forEach(p => {
+                    console.log(`${p.name}: ${p.temperature}${degreeSymbol}${p.temperatureUnit} - ${p.detailedForecast || p.shortForecast}`);
+                });
 
+                console.log("---------------------");
+                console.log("PART 2...");
 
+                // A. Display generated date in span
+                document.getElementById("display-date").textContent = generatedDate;
 
+                // B. Display seven day forecast in table
+                const tableBody = document.querySelector("#display-forecast tbody");
+                tableBody.innerHTML = ""; // Clear previous rows if any
 
+                daytimePeriods.forEach(period => {
+                    const row = document.createElement("tr");
+
+                    const cellPeriod = document.createElement("td");
+                    cellPeriod.textContent = period.name;
+                    row.appendChild(cellPeriod);
+
+                    const cellTemp = document.createElement("td");
+                    cellTemp.textContent = `${period.temperature}${degreeSymbol}${period.temperatureUnit}`;
+                    row.appendChild(cellTemp);
+
+                    const cellForecast = document.createElement("td");
+                    cellForecast.textContent = period.detailedForecast || period.shortForecast;
+                    row.appendChild(cellForecast);
+
+                    const cellIcon = document.createElement("td");
+                    const icon = document.createElement("img");
+                    icon.src = period.icon;
+                    icon.alt = period.shortForecast;
+                    cellIcon.appendChild(icon);
+                    row.appendChild(cellIcon);
+
+                    tableBody.appendChild(row);
+                });
             })
-            .catch(err => console.log(err))
-
+            .catch(err => console.error("Error loading weather data:", err));
     </script>
 </body>
 </html>
