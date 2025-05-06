@@ -35,6 +35,7 @@
         </ol>
     </p>
 
+
     <h2>Part 2</h2>
     <p>
         Write JavaScript code to answer the questions below.
@@ -43,13 +44,17 @@
 
     <ol type="A">
         <li>Using the designated <code>span</code> elements below,
-            display information about the US market, including its region, market type,
+            display information about the US market, including it's region, market type,
             primary exchanges, local open and close times, and current status.
         </li>
     </ol>
 
     <hr>
     <h2>Display</h2>
+
+    <!--select name="region" id="select-region">
+        <option value="N/A">Select an Equity Market Region</option>
+    </select-->
 
     <div id="display-market-info">
         <p>Region: <span id="display-region">TODO</span></p>
@@ -60,15 +65,25 @@
         <p>Current Status: <span id="display-status">TODO</span></p>
     </div>
 
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script type="text/javascript">
+
         // AVOID HARD-CODING THE CREDENTIALS
         // USE SESSION STORAGE TO MINIMIZE THE NUMBER OF TIMES WE HAVE TO PROVIDE THE CREDENTIAL
+        // check session storage for the API Key:
         var apiKey = sessionStorage.getItem("ALPHAVANTAGE_API_KEY")
         if (!apiKey) {
+            // if it isn't there, ask the user to supply it:
             apiKey = prompt("Please enter your AlphaVantage API key:")
+            // store it in the session for later (so it will persist after refreshing the page)
             sessionStorage.setItem("ALPHAVANTAGE_API_KEY", apiKey)
         }
+
+
+
 
         var requestUrl = `https://www.alphavantage.co/query?function=MARKET_STATUS&apikey=${apiKey}`
         d3.json(requestUrl).then(function(data) {
@@ -77,42 +92,22 @@
             console.log("---------------------")
             console.log("PART 1...")
 
-            var markets = data.markets;
-            console.log("Number of markets:", markets.length);
 
-            var equityMarkets = markets.filter(m => m.market_type === "Equity");
-            console.log("Number of equity markets:", equityMarkets.length);
 
-            equityMarkets.forEach(m => {
-                console.log(`Market Type: ${m.market_type}, Region: ${m.region}`);
-            });
 
-            var market = equityMarkets.find(m => m.region === "United States");
 
-            if (market) {
-                console.log("US Market Info:");
-                console.log("Market Type:", market.market_type);
-                console.log("Primary Exchanges:", market.primary_exchanges);
-                console.log("Local Open:", market.local_open);
-                console.log("Local Close:", market.local_close);
-                console.log("Current Status:", market.current_status.toUpperCase());
+            console.log("---------------------")
+            console.log("PART 2...")
 
-                console.log("---------------------")
-                console.log("PART 2...")
 
-                document.getElementById("display-region").textContent = market.region;
-                document.getElementById("display-type").textContent = market.market_type;
-                document.getElementById("display-exchanges").textContent = market.primary_exchanges;
-                document.getElementById("display-open").textContent = market.local_open;
-                document.getElementById("display-close").textContent = market.local_close;
-                document.getElementById("display-status").textContent = market.current_status.toUpperCase();
-            } else {
-                console.warn("United States equity market not found.");
-            }
+
 
         }).catch(function(error) {
             console.error("ERROR:", error)
         })
+
+
+
     </script>
 </body>
 </html>
