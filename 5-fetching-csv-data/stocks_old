@@ -94,36 +94,20 @@
             console.log("---------------------")
             console.log("PART 1...")
 
-            console.log("Symbol:", symbol);
-            console.log("Request URL:", requestUrl);
-            console.log("Number of days:", data.length);
 
-            const sortedData = [...data].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-            const earliest = sortedData[0];
-            const latest = sortedData[sortedData.length - 1];
 
-            const earliestDate = earliest.timestamp;
-            const earliestPrice = parseFloat(earliest.adjusted_close);
-            console.log("Earliest:", earliestDate, formatUSD(earliestPrice));
-
-            const latestDate = latest.timestamp;
-            const latestPrice = parseFloat(latest.adjusted_close);
-            console.log("Latest:", latestDate, formatUSD(latestPrice));
-
-            const pctChange = (latestPrice - earliestPrice) / earliestPrice;
-            console.log("Percent Change:", formatPct(pctChange));
 
 
             console.log("---------------------")
             console.log("PART 2...")
 
-            document.getElementById("display-symbol").textContent = symbol;
-            document.getElementById("display-earliest").textContent = `${earliestDate} (${formatUSD(earliestPrice)})`;
-            document.getElementById("display-latest").textContent = `${latestDate} (${formatUSD(latestPrice)})`;
-            document.getElementById("display-pct-change").textContent = formatPct(pctChange);
 
-        }).catch(function(error) {
-            console.error("ERROR:", error)
+
+
+
+
+            }).catch(function(error) {
+                console.error("ERROR:", error)
         })
 
     </script>
