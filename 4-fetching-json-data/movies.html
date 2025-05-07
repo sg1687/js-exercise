@@ -133,8 +133,8 @@
                         const imgContainer = document.getElementById("image-container");
                         imgContainer.innerHTML = "";
                         const img = document.createElement("img");
-                        img.src = movie.posterUrl;
-                        img.alt = movie.title;
+                        img.src = movie["Thumbnail Image URL"];
+                        img.alt = movie.Title;
                         imgContainer.appendChild(img);
                     }
                 }
