@@ -93,7 +93,7 @@
                 console.log("PART 1...");
                 console.log("Name:", data.Name);
                 console.log("Description:", data.Description);
-                console.log("Website:", data.Website);
+                console.log("Website:", data.OfficialSite);
 
                 console.log("---------------------");
                 console.log("PART 2...");
@@ -103,9 +103,9 @@
                 document.getElementById("display-description").textContent = data.Description || "N/A";
 
                 var link = document.getElementById("display-link");
-                if (data.Website) {
-                    link.href = data.Website;
-                    link.textContent = data.Website;
+                if (data.OfficialSite) {
+                    link.href = data.OfficialSite;
+                    link.textContent = data.OfficialSite;
                 } else {
                     link.href = "#";
                     link.textContent = "N/A";
