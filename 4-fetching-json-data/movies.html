@@ -99,13 +99,13 @@
 
                 // B. Title and year of each
                 movies.forEach(movie => {
-                    console.log(`${movie.title} (${movie.year})`);
+                    console.log(`${movie.Title} (${movie.Year})`);
                 });
 
                 // C. Movie with highest rating
-                const topMovie = d3.max(movies, d => d.imdbRating);
-                const topRated = movies.find(m => m.imdbRating === topMovie);
-                console.log(`Highest Rated Movie: ${topRated.title} (${topRated.imdbRating}/10)`);
+                const topMovie = d3.max(movies, d => d.Rating);
+                const topRated = movies.find(m => m.Rating === topMovie);
+                console.log(`Highest Rated Movie: ${topRated.Title} (${topRated.Rating}/10)`);
 
                 console.log("---------------------");
                 console.log("PART 2...");
@@ -115,8 +115,8 @@
                 // Populate dropdown
                 movies.forEach(movie => {
                     const option = document.createElement("option");
-                    option.value = movie.id;
-                    option.textContent = movie.title;
+                    option.value = movie.Id;
+                    option.textContent = movie.Title;
                     dropdown.appendChild(option);
                 });
 
@@ -126,9 +126,9 @@
                     const movie = movies.find(m => m.id === selectedId);
 
                     if (movie) {
-                        document.getElementById("display-title").textContent = movie.title;
-                        document.getElementById("display-year").textContent = movie.year;
-                        document.getElementById("display-rating").textContent = movie.imdbRating;
+                        document.getElementById("display-title").textContent = movie.Title;
+                        document.getElementById("display-year").textContent = movie.Year;
+                        document.getElementById("display-rating").textContent = movie.Rating;
 
                         const imgContainer = document.getElementById("image-container");
                         imgContainer.innerHTML = "";
