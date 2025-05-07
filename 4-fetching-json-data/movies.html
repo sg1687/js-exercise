@@ -123,7 +123,7 @@
                 // Function to update display
                 function updateMovieInfo() {
                     const selectedId = dropdown.value;
-                    const movie = movies.find(m => m.id === selectedId);
+                    const movie = movies.find(m => m.Id === selectedId);
 
                     if (movie) {
                         document.getElementById("display-title").textContent = movie.Title;
